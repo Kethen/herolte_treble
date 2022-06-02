@@ -127,8 +127,18 @@ phh_wifitethering_patcher.zip removes system/product/overlay/treble-overlay-teth
 
 ### Building
 lineage_build_herolte_vendor_part, lineage_build_hero2lte_vendor_part, lineage_build_herolte_vendor_part_18.1 and lineage_build_hero2lte_vendor_part_18.1 builds lineageos along with treble vendor using https://github.com/lineageos4microg/docker-lineage-cicd
+
+you'll need ~15GB of free ram, ~300GB free disk space and podman
+
 ```
-bash lineage_build_herolte_vendor_part # builds lineage 19.1 along with vndk32
+# create directories
+mkdir src
+mkdir zips
+mkdir logs
+mkdir ccache
+
+# builds lineage 19.1 along with vndk32 for herolte (s7 flat exynos)
+bash lineage_build_herolte_vendor_part 
 ```
 
 ### Reporting issues besides the known ones:
