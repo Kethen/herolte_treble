@@ -1,0 +1,61 @@
+#!/sbin/sh
+# Initial functions
+interface="${1}"
+updater_fd="${2}"
+ZIP="$3"
+ui_print() {
+    echo -en "ui_print ${1}\n" > /proc/self/fd/"${updater_fd}"
+    echo -en "ui_print\n" > /proc/self/fd/"${updater_fd}"
+}
+
+ui_print "deploying files"
+if [ -d /tmp/workdir ]
+then
+	rm -r /tmp/workdir
+fi
+mkdir /tmp/workdir
+cd /tmp/workdir
+unzip "$ZIP"
+
+ui_print "preparing /system_root for modifications"
+chmod 755 e2_progs/*
+./e2_progs/e2fsck -p -f /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1> e2_logs 2> e2_errs
+./e2_progs/resize2fs /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1>> e2_logs 2>> e2_errs
+./e2_progs/e2fsck -p -E unshare_blocks /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1>> e2_logs 2>> e2_errs
+
+ui_print "mounting /system_root"
+mount /dev/block/platform/155a0000.ufs/by-name/SYSTEM /system_root
+
+ui_print "copying files"
+cp bin/lpm /system_root/system/bin/
+chcon u:object_r:charger_exec:s0 /system_root/system/bin/lpm
+chmod 755 /system_root/system/bin/lpm
+chown root:shell /system_root/system/bin/lpm
+
+for f in $(ls lib64)
+do
+	cp lib64/$f /system_root/system/lib64/$f
+	chcon u:object_r:system_lib_file:s0 /system_root/system/lib64/$f
+	chmod 644 /system_root/system/lib64/$f
+	chown root:root /system_root/system/lib64/$f
+done
+
+if ! [ -d /system_root/system/media ]
+then
+	mkdir /system_root/system/media
+	chcon u:object_r:system_file:s0 /system_root/system/media
+	chmod 755 /system_root/system/media
+	chown root:root /system_root/system/media
+fi
+
+for f in $(ls media)
+do
+	cp media/$f /system_root/system/media/$f
+	chcon u:object_r:system_file:s0 /system_root/system/media/$f
+	chmod 644 /system_root/system/media/$f
+	chown root:root /system_root/system/media/$f
+done
+
+ui_print "finishing up"
+umount /system_root
+sync

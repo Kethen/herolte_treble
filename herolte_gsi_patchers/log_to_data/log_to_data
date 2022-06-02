@@ -1,0 +1,3 @@
+#!/system/bin/sh
+/system/bin/logcat 1> /data/logcat_out &
+/system/bin/cat /dev/kmsg 1> /data/dmesg &

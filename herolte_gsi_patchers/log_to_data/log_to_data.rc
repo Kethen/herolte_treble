@@ -1,0 +1,26 @@
+# services for triggering a reboot and logging
+
+on boot
+    start log_to_data
+
+on property:sys.boot_completed=1
+    start user_script
+
+service reboot_now /system/bin/false
+    disabled
+    oneshot 
+    reboot_on_failure reboot,recovery
+
+service log_to_data /system/bin/log_to_data
+    disabled
+    oneshot
+    user root
+    group root
+    seclabel u:r:su:s0
+
+service user_script /system/bin/user_script
+    disabled
+    oneshot  
+    user root 
+    group root
+    seclabel u:r:su:s0

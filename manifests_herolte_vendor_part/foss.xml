@@ -1,0 +1,3 @@
+<manifest>
+  <project name="Kethen/vendor_foss" path="vendor/foss" revision="minimal_a12" remote="github"/>
+</manifest>
