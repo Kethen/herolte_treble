@@ -5,6 +5,7 @@
 
 ### Credits
 https://github.com/8890q/ for LineageOS 19.1/18.1 device tree, kernel, hardware support, blobs
+
 https://forum.xda-developers.com/t/treble-aosp-g930x-g935x-project_pizza-trebleport-v2-0.3956076/ for libsensor blobs
 
 ### Notes:
