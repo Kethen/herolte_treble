@@ -66,7 +66,7 @@ index 8fd2a4a..b43dc32 100644
  
  unsigned kernelVersion();
 +inline bool isBpfSupported() {
-+    return android::base::GetBoolProperty("ro.kernel.ebpf.supported", true);
++    return false;
 +}
  
  static inline bool isAtLeastKernelVersion(unsigned major, unsigned minor, unsigned sub) {

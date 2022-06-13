@@ -26,6 +26,10 @@ https://github.com/00p513-dev for suggesting using squashfs for vendor partition
 
 ### Updates:
 
+- 2022-06-13
+
+android 12 data usage meter now works with a12_patcher.zip
+
 - 2022-06-12
 
 fixed neural network api hal
@@ -99,6 +103,8 @@ https://github.com/phhusson/platform_system_bpf/commit/c81966c23d79241458ebf874c
 
 https://github.com/phhusson/platform_system_netd/commit/3a6efa1ff3717a613d1ba4a0eff5e751262d1074
 
+**data usage stays at 0 MB used on android 12 GSIs, because ebpf is used for metering**
+
 a12_patcher.zip attempts to fix the above issues by creating /system_root/efs and importing bpfloader+netd from https://github.com/8890q/patches
 
 a11_patcher.zip creates /system_root/efs if required
@@ -130,8 +136,8 @@ it should be fixed on phh 414 and up, it is not a vendor issue. If you are using
 4. Flash Lineage 19.1 for android 12.1(api level 32) GSIs, flash Lineage 18.1 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge
 5. Flash the system.img of your choice
 6. If you are using a phh patched GSI, flash phh_wifitethering_patcher.zip
-7. If you are using a non patched GSI on android 12, such as the ones from google, flash a12_patcher.zip
-8. If you are using a non patched GSI on android 11, such as the ones from google, flash a11_patcher.zip
+7. If you are using an android 12/12L GSI, flash a12_patcher.zip
+8. If you are using an android 11 GSI, flash a11_patcher.zip
 9. Flash lpm_installer.zip to enable poweroff charging
 10. If you are using an aosp GSI that is not phh patched or older than phh 414, flash deskclock_powersaving.zip to fix alarm clock
 
