@@ -16,6 +16,8 @@ https://github.com/ExpressLuke for hero2lte testing
 
 https://github.com/00p513-dev for suggesting using squashfs for vendor partition, making it possible to skip partition table modding
 
+https://github.com/phhusson for looking into the double tap to wake issues with phh GSI
+
 ### Notes:
 - I do not own a hero2lte(edge)
 - I'll mostly work on this only during weekends/holidays
@@ -140,6 +142,7 @@ it should be fixed on phh 414 and up, it is not a vendor issue. If you are using
 8. If you are using an android 11 GSI, flash a11_patcher.zip
 9. Flash lpm_installer.zip to enable poweroff charging
 10. If you are using an aosp GSI that is not phh patched or older than phh 414, flash deskclock_powersaving.zip to fix alarm clock
+11. If you are using phh GSI version <= 414, flash phh_dt2w_patcher.zip to fix double tap to wake
 
 ### Undo twrp_patcher.zip and revert to device native roms
 **This is not required for using device native roms, however OTA updates might require this**

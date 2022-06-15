@@ -1,4 +1,4 @@
-zips="a11_patcher  a12_patcher  deskclock_powersaving  log_to_data  lpm_installer  phh_wifitethering_patcher"
+zips="a11_patcher  a12_patcher  deskclock_powersaving  log_to_data  lpm_installer  phh_wifitethering_patcher phh_dt2w_patcher"
 
 if [ -d output ]
 then
