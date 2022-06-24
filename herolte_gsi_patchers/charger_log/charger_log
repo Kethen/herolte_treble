@@ -1,0 +1,4 @@
+#!/system/bin/sh
+mount /dev/block/platform/155a0000.ufs/by-name/HIDDEN /cache
+/system/bin/logcat 1> /cache/logcat_out &
+/system/bin/cat /dev/kmsg 1> /cache/dmesg &

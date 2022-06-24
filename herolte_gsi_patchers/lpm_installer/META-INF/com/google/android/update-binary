@@ -33,6 +33,13 @@ chcon u:object_r:charger_exec:s0 /system_root/system/bin/lpm
 chmod 755 /system_root/system/bin/lpm
 chown root:shell /system_root/system/bin/lpm
 
+cp bin/mask_bootanim /system_root/system/bin/
+chmod 755 /system_root/system/bin/mask_bootanim
+chown root:shell /system_root/system/bin/mask_bootanim
+
+cp etc/init/mask_bootanim.rc /system_root/system/etc/init/
+chmod 644 /system_root/system/etc/init/mask_bootanim.rc
+
 for f in $(ls lib64)
 do
 	cp lib64/$f /system_root/system/lib64/$f

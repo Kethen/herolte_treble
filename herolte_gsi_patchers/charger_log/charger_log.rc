@@ -1,0 +1,19 @@
+# services for triggering a reboot and logging
+
+on charger
+    start charger_log
+
+on property:sys.boot_completed=1
+    start user_script
+
+service reboot_now /system/bin/false
+    disabled
+    oneshot 
+    reboot_on_failure reboot,recovery
+
+service charger_log /system/bin/charger_log
+    disabled
+    oneshot
+    user root
+    group root
+    seclabel u:r:su:s0

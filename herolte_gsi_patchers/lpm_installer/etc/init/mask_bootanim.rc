@@ -1,0 +1,10 @@
+on charger
+    exec_start mask_bootanim
+
+service mask_bootanim /system/bin/mask_bootanim
+    disabled
+    oneshot  
+    user root 
+    group root
+    seclabel u:r:su:s0
+

@@ -28,6 +28,14 @@ https://github.com/phhusson for looking into the double tap to wake issues with 
 
 ### Updates:
 
+- 2022-06-24
+
+lpm_installer.zip should work with Phh and Andy Yan GSIs better now
+
+- 2022-06-18
+
+vndk30 prop changes, might help booting exotic GSIs
+
 - 2022-06-13
 
 android 12 data usage meter now works with a12_patcher.zip

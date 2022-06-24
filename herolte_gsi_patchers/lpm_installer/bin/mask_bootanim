@@ -1,0 +1,3 @@
+#!/system/bin/sh
+mount -o bind /system/bin/true /system/bin/bootanimation
+mount -o bind /system/bin/true /system/bin/surfaceflinger
