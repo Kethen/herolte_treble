@@ -147,7 +147,7 @@ it should be fixed on phh 414 and up, it is not a vendor issue. If you are using
 ### Undo twrp_patcher.zip and revert to device native roms
 **This is not required for using device native roms, however OTA updates might require this**
 1. Flash the newest twrp again
-2. Wipe cache
+2. Format cache using wipe -> select cache -> repair or change file system -> change file system -> ext4
 3. Flash a device native rom
 
 ### Building
