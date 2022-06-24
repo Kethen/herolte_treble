@@ -24,6 +24,7 @@ chmod 755 e2_progs/*
 ./e2_progs/e2fsck -p -E unshare_blocks /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1>> e2_logs 2>> e2_errs
 
 ui_print "mounting /system_root"
+mkdir /system_root
 mount /dev/block/platform/155a0000.ufs/by-name/SYSTEM /system_root
 
 ui_print "copying files"
