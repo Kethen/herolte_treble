@@ -28,6 +28,12 @@ https://github.com/phhusson for looking into the double tap to wake issues with 
 
 ### Updates:
 
+- 2022-06-26
+
+rebased vndk32 on 2022-06-24 build from ivan
+
+new smaller vendor flasher, flashes only boot and vendor
+
 - 2022-06-24
 
 lpm_installer.zip should work with Phh and Andy Yan GSIs better now
@@ -143,14 +149,18 @@ it should be fixed on phh 414 and up, it is not a vendor issue. If you are using
 1. If you are using the old partition table mod zip heroxlte_CreateVendor_2.0.zip from older versions, first flash heroxlte_RevertVendor_2.0.zip, or revert your partition table other ways such as odin. Skip this step if you have never touched your partition table
 2. Install the newest twrp from https://eu.dl.twrp.me/herolte/ (s7) or https://eu.dl.twrp.me/hero2lte/ (s7 edge)
 3. Flash twrp_patcher.zip to enable system.img flashing, it'll reboot to recovery once it's done, tested on 3.6.2_9-0 but newer versions should work unless recovery.fstab changes
-4. Flash Lineage 19.1 for android 12.1(api level 32) GSIs, flash Lineage 18.1 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge
+4. Flash vndk32 for android 12.1(api level 32) GSIs, flash vndk30 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge
 5. Flash the system.img of your choice
-6. If you are using a phh patched GSI, flash phh_wifitethering_patcher.zip
-7. If you are using an android 12/12L GSI, flash a12_patcher.zip
-8. If you are using an android 11 GSI, flash a11_patcher.zip
-9. Flash lpm_installer.zip to enable poweroff charging
-10. If you are using an aosp GSI that is not phh patched or older than phh 414, flash deskclock_powersaving.zip to fix alarm clock
-11. If you are using phh GSI version <= 414, flash phh_dt2w_patcher.zip to fix double tap to wake
+6. If you are using phh GSI version <= 414, flash phh_wifitethering_patcher.zip
+7. If you are using phh GSI version <= 414, flash phh_dt2w_patcher.zip to fix double tap to wake
+8. If you are using phh GSI version <= 413 or pure aosp, flash deskclock_powersaving.zip to fix alarm clock
+9. If you are using an android 12/12L GSI, flash a12_patcher.zip
+10. If you are using an android 11 GSI, flash a11_patcher.zip
+11. Flash lpm_installer.zip to enable poweroff charging
+
+### Updating vendor
+1. Flash vndk32 for android 12.1(api level 32) GSIs, flash vndk30 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge
+
 
 ### Undo twrp_patcher.zip and revert to device native roms
 **This is not required for using device native roms, however OTA updates might require this**
