@@ -18,6 +18,8 @@ https://github.com/00p513-dev for suggesting using squashfs for vendor partition
 
 https://github.com/phhusson for looking into the double tap to wake issues with phh GSI
 
+https://github.com/ivanmeler for prompting me to look into lpm again, now it is migrated into /vendor
+
 ### Notes:
 - I do not own a hero2lte(edge)
 - I'll mostly work on this only during weekends/holidays
@@ -27,6 +29,10 @@ https://github.com/phhusson for looking into the double tap to wake issues with 
 - 2022-06-12 the CACHE partition is now used as vendor, the HIDDEN patition is now used as cache, no more partition table mods required
 
 ### Updates:
+
+- 2022-07-10
+
+moved lpm to vendor partition
 
 - 2022-06-26
 
@@ -131,17 +137,13 @@ a legacy implementation of usb adb is required for this kernel, see https://revi
 
 as a workaround, disable usb adb and use wifi adb
 
-**lpm/power off charging does not work**
-
-lpm related blobs sadly has to be installed on /system, flash lpm_instasller.zip after installing gsi if power off charging is desired, it might or might not work depending on GSI (tested on phh 413 and 313)
-
-**Wifi tethering does not work on phh GSIs**
+**Wifi tethering does not work on phh GSIs <=414**
 
 https://github.com/phhusson/vendor_hardware_overlay/tree/pie/Tethering conflicts with our Tethering overlay
 
 flash phh_wifitethering_patcher.zip after installing phh GSIs
 
-**Alarm clock not working on aosp GSI**
+**Alarm clock not working on aosp GSIs**
 
 it should be fixed on phh 414 and up, it is not a vendor issue. If you are using an older aosp GSI, flash deskclock_powersaving.zip to fix that. See https://github.com/LineageOS/android_packages_apps_DeskClock/commit/8dd096c4cfb647960be1695a57246727878b8c8d
 
@@ -156,7 +158,6 @@ it should be fixed on phh 414 and up, it is not a vendor issue. If you are using
 8. If you are using phh GSI version <= 413 or pure aosp, flash deskclock_powersaving.zip to fix alarm clock
 9. If you are using an android 12/12L GSI, flash a12_patcher.zip
 10. If you are using an android 11 GSI, flash a11_patcher.zip
-11. Flash lpm_installer.zip to enable poweroff charging
 
 ### Updating vendor
 1. Flash vndk32 for android 12.1(api level 32) GSIs, flash vndk30 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge

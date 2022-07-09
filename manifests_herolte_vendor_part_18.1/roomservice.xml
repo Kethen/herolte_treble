@@ -15,9 +15,7 @@
   <!--libcamera_client vendor copy-->
   <remove-project name="LineageOS/android_frameworks_av" />
   <project name="Kethen/android_frameworks_av-1" path="frameworks/av" revision="lineage-18.1-vendor-part" remote="github" />
-  <!--libgui vendor copy-->
-  <!--
-  <remove-project name="LineageOS/android_frameworks_native" />
-  <project name="Kethen/android_frameworks_native" path="frameworks/native" revision="lineage-18.1-vendor-part" remote="github" />
-  -->
+  <!--libsuspend vendor copy-->
+  <remove-project name="LineageOS/android_system_core" />
+  <project name="Kethen/android_system_core-1" path="system/core" revision="lineage-18.1-vendor-part" remote="github" />
 </manifest>
