@@ -34,15 +34,31 @@ then
 fi
 
 ui_print "copying files"
-cp bin/netd /system_root/system/bin/
+for f in bin/netd bin/bpfloader bin/keystore2
+do
+	cp $f /system_root/system/bin/
+	chmod 755 /system_root/system/$f
+	chown root:shell /system_root/system/$f
+done
 chcon u:object_r:netd_exec:s0 /system_root/system/bin/netd
-chmod 755 /system_root/system/bin/netd
-chown root:shell /system_root/system/bin/netd
-
-cp bin/bpfloader /system_root/system/bin/
 chcon u:object_r:bpfloader_exec:s0 /system_root/system/bin/bpfloader
-chmod 755 /system_root/system/bin/bpfloader
-chown root:shell /system_root/system/bin/bpfloader
+chcon u:object_r:keystore_exec:s0 /system_root/system/bin/keystore2
+
+for f in lib64/libkm_compat.so lib64/libkeymaster_portable.so lib64/libkeymaster3device.so lib64/libkeystore2_aaid.so lib64/libkeystore2_crypto.so lib64/libkeystore2_apc_compat.so lib64/libkeystore2_vintf_cpp.so
+do
+	cp $f /system_root/system/lib64
+	chcon u:object_r:system_lib_file:s0 /system_root/system/$f
+	chmod 644 /system_root/system/$f
+	chown root:root /system_root/system/$f
+done
+
+for f in lib/libkeymaster_portable.so lib/libkeymaster3device.so
+do
+	cp $f /system_root/system/lib
+	chcon u:object_r:system_lib_file:s0 /system_root/system/$f
+	chmod 644 /system_root/system/$f
+	chown root:root /system_root/system/$f
+done
 
 ui_print "finishing up"
 umount /system_root

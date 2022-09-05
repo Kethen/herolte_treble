@@ -18,6 +18,8 @@ do
 	checkout_project "$f/build"
 	checkout_project "$f/system/bpf"
 	checkout_project "$f/system/netd"
+	checkout_project "$f/hardware/libhardware"
+	checkout_project "$f/system/security"
 
 	if [ "$f" == "CM_14_1" ]
 	then

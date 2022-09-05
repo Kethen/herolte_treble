@@ -30,6 +30,16 @@ https://github.com/ivanmeler for prompting me to look into lpm again, now it is 
 
 ### Updates:
 
+- 2022-09-05
+
+adding keystore fixes to a12_patcher.zip:
+
+	https://github.com/LineageOS/android_system_security/commit/356c125115c0a9b9f9670b5b86b6e291c5ec5404
+
+	https://github.com/8890q/patches/commit/9a322b4e71ca784d4a2f71494d1ef0e52f835efe
+
+which fixes keystore apps and device encryption on Google 12L GSI, might also fix some keystore apps issues on phh GSI
+
 - 2022-07-10
 
 moved lpm to vendor partition

@@ -277,6 +277,8 @@ then
 	sed -i "s/if info_dict.get('vintf_enforce') != 'true':/if True:/" build/make/tools/releasetools/check_target_files_vintf.py
 fi
 
+# patches from https://github.com/8890q/patches
+
 # for older kernels that has no bpf support
 if [ "$PATCH_BPFL" == "true" ]
 then
@@ -288,11 +290,19 @@ then
 		cd system/netd
 		git apply /patches/system_netd/0001-Add-back-support-for-non-bpf-trafic-monitoring.patch
 	)
-	#sed -i 's/sleep(20);/android::base::SetProperty("bpf.progs_loaded", "1");/' system/bpf/bpfloader/BpfLoader.cpp
-	#sed -i 's/return 2;/return 0;/' system/bpf/bpfloader/BpfLoader.cpp
+fi
 
-	#sed -i 's/sleep(60);//' system/netd/server/Controllers.cpp
-	#sed -i 's/exit(1);//' system/netd/server/Controllers.cpp
+# hacks for samsung hardware keystore
+if [ "$KEYSTORE_HACKS" == "true" ]
+then
+	(
+		cd hardware/libhardware
+		git apply /patches/hardware_libhardware/0001-keystore-hackup.patch
+	)
+	(
+		cd system/security
+		git apply /patches/system_security/0001-keystore-hackup.patch
+	)
 fi
 
 # run repopick on request
@@ -300,6 +310,6 @@ if [ -n "$REPOPICK" ]
 then
 	for change in $REPOPICK
 	do
-		./vendor/lineage/build/tools/repopick.py $change
+		./vendor/lineage/build/tools/repopick.py $change -f
 	done
 fi

@@ -16,6 +16,7 @@ podman run \
 	-e "CLEAN_AFTER_BUILD=false" \
 	-e "SKIP_VINTF_PATCH=true" \
 	-e "PATCH_BPFL=true" \
+	-e "KEYSTORE_HACKS=true" \
 	-e "REPOPICK=326385" \
 	-v "./src:/srv/src" \
 	-v "./zips:/srv/zips" \
