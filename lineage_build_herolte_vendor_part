@@ -4,6 +4,13 @@ FDROID="org.fdroid.fdroid org.fdroid.fdroid.privileged"
 EXTRA_APP_SELECTION="org.bromite.bromite net.osmand.plus org.videolan.vlc net.gsantner.markor ws.xsoh.etar com.fsck.k9 net.sourceforge.opencamera com.moez.QKSMS org.koreader.launcher.fdroid org.sufficientlysecure.keychain org.documentfoundation.libreoffice com.gsnathan.pdfviewer"
 MICROG="GmsCore GsfProxy FakeStore MozillaNlpBackend NominatimNlpBackend com.google.android.maps.jar additional_repos.xml"
 #EAPPS="e_permissions.xml SystemUIWithLegacyRecents OpenWeatherMapWeatherProvider BlissLauncher "
+
+JOBS=""
+if [ -n "$PARALLEL_JOBS" ]
+then
+	JOBS="-e PARALLEL_JOBS=$PARALLEL_JOBS"
+fi
+
 podman run \
 	--security-opt label=disable \
 	--net host \
@@ -18,6 +25,7 @@ podman run \
 	-e "PATCH_BPFL=true" \
 	-e "KEYSTORE_HACKS=true" \
 	-e "REPOPICK=326385" \
+	$JOBS \
 	-v "./src:/srv/src" \
 	-v "./zips:/srv/zips" \
 	-v "./logs:/srv/logs" \

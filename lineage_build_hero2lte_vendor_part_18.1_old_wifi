@@ -26,7 +26,7 @@ podman run \
 	-v "./zips:/srv/zips" \
 	-v "./logs:/srv/logs" \
 	-v "./ccache:/srv/ccache" \
-	-v "./manifests_herolte_vendor_part_18.1:/srv/local_manifests:ro" \
+	-v "./manifests_herolte_vendor_part_18.1_old_wifi:/srv/local_manifests:ro" \
 	-v "./userscripts:/root/userscripts:ro" \
 	-v "/etc/localtime:/etc/localtime:ro" \
 docker-lineage-cicd

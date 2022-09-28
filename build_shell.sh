@@ -16,7 +16,7 @@ podman run \
 	--net host \
 	-it --rm \
 	-e "BRANCH_NAME=lineage-18.1" \
-	-e "DEVICE_LIST=hero2lte" \
+	-e "DEVICE_LIST=herolte" \
 	-e "INCLUDE_PROPRIETARY=false" \
 	-e "CUSTOM_PACKAGES=$WEBKIT_REPLACEMENT $FDROID $EXTRA_APP_SELECTION $MICROG $EAPPS " \
 	-e "SIGNATURE_SPOOFING=restricted" \
@@ -26,7 +26,10 @@ podman run \
 	-v "./zips:/srv/zips" \
 	-v "./logs:/srv/logs" \
 	-v "./ccache:/srv/ccache" \
-	-v "./manifests_herolte_vendor_part_18.1:/srv/local_manifests:ro" \
+	-v "./manifests_herolte_vendor_part_18.1_old_wifi:/srv/local_manifests:ro" \
 	-v "./userscripts:/root/userscripts:ro" \
 	-v "/etc/localtime:/etc/localtime:ro" \
+	--entrypoint '["/bin/bash", "/build_shell_exec.sh"]' \
+	-w /srv/src \
+	-v ./build_shell_exec.sh:/build_shell_exec.sh \
 docker-lineage-cicd
