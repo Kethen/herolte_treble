@@ -30,6 +30,10 @@ https://github.com/ivanmeler for prompting me to look into lpm again, now it is 
 
 ### Updates:
 
+- 2022-10-04
+
+update gps blobs from https://github.com/8890q/proprietary_vendor_samsung/commit/698ddd9acd7bdca78ecea93e06fd78a0d9dbc407
+
 - 2022-09-05
 
 adding keystore fixes to a12_patcher.zip:
