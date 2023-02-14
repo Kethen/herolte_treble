@@ -17,15 +17,21 @@ mkdir /tmp/workdir
 cd /tmp/workdir
 unzip "$ZIP"
 
+SYSTEM_PART="/dev/block/platform/15740000.dwmmc2/by-name/SYSTEM_SD"
+if ! [ -e "$SYSTEM_PART" ]
+then
+        SYSTEM_PART="/dev/block/platform/155a0000.ufs/by-name/SYSTEM"
+fi
+
 ui_print "preparing /system_root for modifications"
 chmod 755 e2_progs/*
-./e2_progs/e2fsck -p -f /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1> e2_logs 2> e2_errs
-./e2_progs/resize2fs /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1>> e2_logs 2>> e2_errs
-./e2_progs/e2fsck -p -E unshare_blocks /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1>> e2_logs 2>> e2_errs
+./e2_progs/e2fsck -p -f "$SYSTEM_PART" 1> e2_logs 2> e2_errs
+./e2_progs/resize2fs "$SYSTEM_PART" 1>> e2_logs 2>> e2_errs
+./e2_progs/e2fsck -p -E unshare_blocks "$SYSTEM_PART" 1>> e2_logs 2>> e2_errs
 
 ui_print "mounting /system_root"
 mkdir /system_root
-mount /dev/block/platform/155a0000.ufs/by-name/SYSTEM /system_root
+mount "$SYSTEM_PART" /system_root
 
 ui_print "copying files"
 cp phh/samsung-sec_touchscreen.kl /system_root/system/phh/samsung-sec_touchscreen.kl

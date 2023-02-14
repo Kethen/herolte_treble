@@ -17,15 +17,21 @@ mkdir /tmp/workdir
 cd /tmp/workdir
 unzip "$ZIP"
 
+SYSTEM_PART="/dev/block/platform/15740000.dwmmc2/by-name/SYSTEM_SD"
+if ! [ -e "$SYSTEM_PART" ]
+then
+        SYSTEM_PART="/dev/block/platform/155a0000.ufs/by-name/SYSTEM"
+fi
+
 ui_print "preparing /system_root for modifications"
 chmod 755 e2_progs/*
-./e2_progs/e2fsck -p -f /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1> e2_logs 2> e2_errs
-./e2_progs/resize2fs /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1>> e2_logs 2>> e2_errs
-./e2_progs/e2fsck -p -E unshare_blocks /dev/block/platform/155a0000.ufs/by-name/SYSTEM 1>> e2_logs 2>> e2_errs
+./e2_progs/e2fsck -p -f "$SYSTEM_PART" 1> e2_logs 2> e2_errs
+./e2_progs/resize2fs "$SYSTEM_PART" 1>> e2_logs 2>> e2_errs
+./e2_progs/e2fsck -p -E unshare_blocks "$SYSTEM_PART" 1>> e2_logs 2>> e2_errs
 
 ui_print "mounting /system_root"
 mkdir /system_root
-mount /dev/block/platform/155a0000.ufs/by-name/SYSTEM /system_root
+mount "$SYSTEM_PART" /system_root
 
 if ! [ -d /system_root/efs ]
 then
@@ -44,7 +50,7 @@ chcon u:object_r:netd_exec:s0 /system_root/system/bin/netd
 chcon u:object_r:bpfloader_exec:s0 /system_root/system/bin/bpfloader
 chcon u:object_r:keystore_exec:s0 /system_root/system/bin/keystore2
 
-for f in lib64/libkm_compat.so lib64/libkeymaster_portable.so lib64/libkeymaster3device.so lib64/libkeystore2_aaid.so lib64/libkeystore2_crypto.so lib64/libkeystore2_apc_compat.so lib64/libkeystore2_vintf_cpp.so
+for f in lib64/libkm_compat.so lib64/libkeymaster_portable.so lib64/libkeymaster3device.so lib64/libkeystore2_aaid.so lib64/libkeystore2_crypto.so lib64/libkeystore2_apc_compat.so lib64/libkeystore2_vintf_cpp.so lib64/libaptX_encoder.so
 do
 	cp $f /system_root/system/lib64
 	chcon u:object_r:system_lib_file:s0 /system_root/system/$f

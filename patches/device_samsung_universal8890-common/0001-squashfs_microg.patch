@@ -1,0 +1,28 @@
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+index 0ac25bb..f1b7a14 100644
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -65,6 +65,9 @@ TARGET_SCREEN_DENSITY := 560
+ # Filesystem
+ BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE  := ext4
+ BOARD_EXT4_SHARE_DUP_BLOCKS := true
++BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := squashfs
++BOARD_SYSTEMIMAGE_SQUASHFS_COMPRESSOR := gzip
++BOARD_SYSTEMIMAGE_SQUASHFS_COMPRESSOR_OPT := -Xcompression-level 9
+ BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := squashfs
+ BOARD_VENDORIMAGE_SQUASHFS_COMPRESSOR := gzip
+ BOARD_VENDORIMAGE_SQUASHFS_COMPRESSOR_OPT := -Xcompression-level 9
+diff --git a/device-common.mk b/device-common.mk
+index 74a53fd..27e5e92 100644
+--- a/device-common.mk
++++ b/device-common.mk
+@@ -16,6 +16,9 @@
+ 
+ COMMON_PATH := device/samsung/universal8890-common
+ 
++# load microg and fdroid
++WITH_GMS=true
++
+ # Overlays
+ DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay
+ PRODUCT_ENFORCE_RRO_TARGETS := *

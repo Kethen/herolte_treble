@@ -305,6 +305,27 @@ then
 	)
 fi
 
+# enable microg and make systemimage sfs
+if [ "$PERSONAL_BUILD" == "true" ]
+then
+	if [ -e "device/samsung/universal8890-common" ]
+	then
+		(
+			cd device/samsung/universal8890-common
+			git apply /patches/device_samsung_universal8890-common/0001-squashfs_microg.patch
+		)
+	fi
+
+	# add bromite to fdroid
+	if [ -e "vendor/partner_gms" ]
+	then
+		(
+			cd vendor/partner_gms
+			git apply /patches/vendor_partner_gms/0001-bromite-fdroid.patch
+		)
+	fi
+fi
+
 # run repopick on request
 if [ -n "$REPOPICK" ]
 then

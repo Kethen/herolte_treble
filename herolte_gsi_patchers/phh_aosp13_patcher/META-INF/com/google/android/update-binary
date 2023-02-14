@@ -33,11 +33,26 @@ ui_print "mounting /system_root"
 mkdir /system_root
 mount "$SYSTEM_PART" /system_root
 
-if [ -e /system_root/system/product/overlay/treble-overlay-tethering.apk ]
-then
-	ui_print "removing /system_root/system/product/overlay/treble-overlay-tethering.apk"
-	rm /system_root/system/product/overlay/treble-overlay-tethering.apk
-fi
+ui_print "copying files"
+for f in bin/lmkd
+do
+	cp $f /system_root/system/bin/
+	chmod 755 /system_root/system/$f
+	chown root:shell /system_root/system/$f
+done
+chcon u:object_r:lmkd_exec:s0 /system_root/system/bin/lmkd
+
+for f in lib64/libaptX_encoder.so
+do
+	cp $f /system_root/system/lib64
+	chcon u:object_r:system_lib_file:s0 /system_root/system/$f
+	chmod 644 /system_root/system/$f
+	chown root:root /system_root/system/$f
+done
+
+ui_print "removing sysbta"
+rm /system_root/system/bin/hw/android.hardware.bluetooth.audio-service-system
+rm /system_root/system/etc/init/android.hardware.bluetooth.audio-service-system.rc
 
 ui_print "finishing up"
 umount /system_root
