@@ -54,6 +54,10 @@ ui_print "removing sysbta"
 rm /system_root/system/bin/hw/android.hardware.bluetooth.audio-service-system
 rm /system_root/system/etc/init/android.hardware.bluetooth.audio-service-system.rc
 
+ui_print "disabling healthd based offline charging, samsung lpm is available in vendor"
+sed -i 's/service charger \/bin\/charger/service not_charger \/bin\/charger/g' '/system_root/system/etc/init/hw/init.rc'
+sed -i 's/class charger/class not_charger/g' '/system_root/system/etc/init/hw/init.rc'
+
 ui_print "finishing up"
 umount /system_root
 sync

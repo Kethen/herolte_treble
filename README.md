@@ -26,9 +26,24 @@ https://github.com/ivanmeler for prompting me to look into lpm again, now it is 
 - and on that note the hero2lte build is not tested by myself
 - for vndk30 based vendor (LineageOS 18.1), use with android 11 and up GSIs
 - for vndk32 based vendor (LineageOS 19.1), use with android 12L and up GSIs
+- phh/treble droid android 13 GSIs should work since those are patched to support bpf-less kernels
 - 2022-06-12 the CACHE partition is now used as vendor, the HIDDEN patition is now used as cache, no more partition table mods required
 
 ### Updates:
+
+- 2023-02-14
+
+include libaptX_encoder.so in android 12+ patchers
+
+adding patches to support phh android 13 GSIs
+
+	includes lineage lmkd, https://github.com/LineageOS/android_system_memory_lmkd/commit/be8c7930b938d6721f80c185323773e0505e2dfc seems required for lmkd to work on this kernel
+
+	fix bluetooth audio by disabling sysbta (generic in-system bluetooth audio implementation), see https://github.com/phhusson/treble_experimentations/issues/2519
+
+	disable full disk encryption and quota when booting android 13, https://github.com/8890q/android_device_samsung_universal8890-common/commit/3cbcf972465419c18bf4850d26320896df465b18 https://github.com/8890q/android_device_samsung_universal8890-common/commit/f536d3fd03e7cf8baf55d30dd216588b871275b6 ; FDE still works when using android 12 GSIs
+
+	disable healthd offline charging service, conflicts with lpm
 
 - 2022-10-04
 
@@ -125,6 +140,12 @@ https://github.com/phhusson/treble_experimentations/releases/tag/v413 (vanilla/b
 
 https://developer.android.com/topic/generic-system-image/releases (android 12 gsi, with a12_patch.zip flashed after)
 
+- vndk33
+
+https://github.com/TrebleDroid/treble_experimentations/releases/tag/ci-20230131 (system-td-arm64-ab-vanilla, with phh_aosp13_patcher.zip flashed after)
+
+https://sourceforge.net/projects/andyyan-gsi/files/lineage-20-td/ (lineage-20.0-20230115-UNOFFICIAL-arm64_bvN, with phh_aosp13_patcher.zip flashed after)
+
 **important: system as root builds, you'd want ab build GSIs**
 
 ### Known issues:
@@ -145,7 +166,7 @@ a12_patcher.zip attempts to fix the above issues by creating /system_root/efs an
 
 a11_patcher.zip creates /system_root/efs if required
 
-**usb adb does not work on android 12 GSIs**
+**usb adb does not work on android 12/13 GSIs**
 
 a legacy implementation of usb adb is required for this kernel, see https://review.lineageos.org/c/LineageOS/android_packages_modules_adb/+/326385
 
@@ -161,20 +182,29 @@ flash phh_wifitethering_patcher.zip after installing phh GSIs
 
 it should be fixed on phh 414 and up, it is not a vendor issue. If you are using an older aosp GSI, flash deskclock_powersaving.zip to fix that. See https://github.com/LineageOS/android_packages_apps_DeskClock/commit/8dd096c4cfb647960be1695a57246727878b8c8d
 
+**Google android 13 GSIs do not work**
+
+post-build patching got more involved in android 13 since on-java patches are now required, stick with phh/treble droid GSIs which already include build time patches for bpf-less kernel support
+
+**Disk encryption does not work on android 13 GSIs**
+
+full disk encryption is removed in android 13, file based encryption not available currently https://github.com/8890q/android_device_samsung_universal8890-common/commit/3cbcf972465419c18bf4850d26320896df465b18
+
 ### Installation
 1. If you are using the old partition table mod zip heroxlte_CreateVendor_2.0.zip from older versions, first flash heroxlte_RevertVendor_2.0.zip, or revert your partition table other ways such as odin. Skip this step if you have never touched your partition table
-2. Install the newest twrp from https://eu.dl.twrp.me/herolte/ (s7) or https://eu.dl.twrp.me/hero2lte/ (s7 edge)
+2. Install twrp-3.6.2_9-0 from https://eu.dl.twrp.me/herolte/ (s7) or https://eu.dl.twrp.me/hero2lte/ (s7 edge), as of rignt now newest(twrp-3.7.0_9-0) is too big for flashing
 3. Flash twrp_patcher.zip to enable system.img flashing, it'll reboot to recovery once it's done, tested on 3.6.2_9-0 but newer versions should work unless recovery.fstab changes
-4. Flash vndk32 for android 12.1(api level 32) GSIs, flash vndk30 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge
+4. Flash vndk32 for android 12.1(api level 32) and android 13.0(api level 33) GSIs, flash vndk30 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge
 5. Flash the system.img of your choice
 6. If you are using phh GSI version <= 414, flash phh_wifitethering_patcher.zip
 7. If you are using phh GSI version <= 414, flash phh_dt2w_patcher.zip to fix double tap to wake
 8. If you are using phh GSI version <= 413 or pure aosp, flash deskclock_powersaving.zip to fix alarm clock
 9. If you are using an android 12/12L GSI, flash a12_patcher.zip
 10. If you are using an android 11 GSI, flash a11_patcher.zip
+11. If you are using a phh/treble droid android 13 GSI, flash phh_aosp13_patcher.zip
 
 ### Updating vendor
-1. Flash vndk32 for android 12.1(api level 32) GSIs, flash vndk30 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge
+1. Flash vndk32 for android 12.1(api level 32) and android 13.0(api level 33) GSIs, flash vndk30 for android 11(api level 30) and 12(api level 31) GSIs, herolte for s7 and hero2lte for s7edge
 
 
 ### Undo twrp_patcher.zip and revert to device native roms
