@@ -31,9 +31,9 @@ https://github.com/ivanmeler for prompting me to look into lpm again, now it is 
 
 ### Updates:
 
-- 2023-02-14
+- 2023-02-15
 
-include libaptX_encoder.so in android 12+ patchers
+include libaptX_encoder.so in patchers
 
 adding patches to support phh android 13 GSIs
 
