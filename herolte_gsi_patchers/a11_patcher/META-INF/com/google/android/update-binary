@@ -39,6 +39,15 @@ then
 	mkdir /system_root/efs
 fi
 
+ui_print "installing libaptX_encoder.so"
+for f in lib64/libaptX_encoder.so
+do
+        cp $f /system_root/system/lib64
+        chcon u:object_r:system_lib_file:s0 /system_root/system/$f
+        chmod 644 /system_root/system/$f
+        chown root:root /system_root/system/$f
+done
+
 ui_print "finishing up"
 umount /system_root
 sync

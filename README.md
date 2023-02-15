@@ -31,9 +31,9 @@ https://github.com/ivanmeler for prompting me to look into lpm again, now it is 
 
 ### Updates:
 
-- 2023-02-14
+- 2023-02-15
 
-include libaptX_encoder.so in android 12+ patchers
+include libaptX_encoder.so in patchers
 
 adding patches to support phh android 13 GSIs
 
@@ -188,7 +188,7 @@ post-build patching got more involved in android 13 since on-java patches are no
 
 **Disk encryption does not work on android 13 GSIs**
 
-full disk encryption is removed in android 13, file based encryption not available currently https://github.com/8890q/android_device_samsung_universal8890-common/commit/3cbcf972465419c18bf4850d26320896df465b18
+full disk encryption is removed in android 13, file based encryption is not available currently https://github.com/8890q/android_device_samsung_universal8890-common/commit/3cbcf972465419c18bf4850d26320896df465b18
 
 ### Installation
 1. If you are using the old partition table mod zip heroxlte_CreateVendor_2.0.zip from older versions, first flash heroxlte_RevertVendor_2.0.zip, or revert your partition table other ways such as odin. Skip this step if you have never touched your partition table
