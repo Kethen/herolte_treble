@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -xe
 if false
 then
 	# replace default wallpaper
@@ -208,42 +208,6 @@ else
   fi
 fi
 
-# patch Dialer to remove call record country restriction
-echo patching call recorder to ignore country restrictions, please refer to your country\'s law and use at your own risk
-if [ -e packages/apps/Dialer/java/com/android/incallui/call/CallRecorder.java ]
-then
-# android 10, 11 and 12
-    OLD_IFS=$IFS
-    IFS=$'\n'
-    echo > /tmp/CallRecorder.java
-    cat packages/apps/Dialer/java/com/android/incallui/call/CallRecorder.java | while read -r LINE
-    do
-        if [ -z "$write_disabled" ]
-        then
-            echo "$LINE" >> /tmp/CallRecorder.java
-        fi
-        if [ -n "$(echo $LINE | grep 'public boolean canRecordInCurrentCountry() {')" ]
-        then
-            echo "return true;" >> /tmp/CallRecorder.java
-            write_disabled=true
-        fi
-        if [ -n "$(echo $LINE | grep 'private CallRecorder() {')" ]
-        then
-            echo '}' >> /tmp/CallRecorder.java
-            echo "$LINE" >> /tmp/CallRecorder.java
-            write_disabled=""
-        fi
-    done
-    IFS=$OLD_IFS
-    cp /tmp/CallRecorder.java packages/apps/Dialer/java/com/android/incallui/call/CallRecorder.java
-else
-    if [ -e packages/apps/Dialer/src/com/android/services/callrecorder/CallRecorderService.java ]
-    then
-        # android 7
-        sed -i 's/context.getResources().getBoolean(R.bool.call_recording_enabled)/true/g' packages/apps/Dialer/src/com/android/services/callrecorder/CallRecorderService.java
-    fi
-fi
-
 # patching -mapcs away for clang + android 7
 if [ "$BRANCH_NAME" == "cm-14.1" ]
 then
@@ -323,6 +287,52 @@ then
 			cd vendor/partner_gms
 			git apply /patches/vendor_partner_gms/0001-bromite-fdroid.patch
 		)
+	fi
+
+	# make bromite system webview the only webview provider
+	if [ "$BRANCH_NAME" == "lineage-19.1" ]
+	then
+		(
+			cd frameworks/base
+			git apply /patches/frameworks_base/0001_bromite_webview.patch
+		)
+		rm vendor/lineage/overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml
+	fi
+
+	# patch Dialer to remove call record country restriction
+	echo patching call recorder to ignore country restrictions, please refer to your country\'s law and use at your own risk
+	if [ -e packages/apps/Dialer/java/com/android/incallui/call/CallRecorder.java ]
+	then
+	# android 10, 11 and 12
+	    OLD_IFS=$IFS
+	    IFS=$'\n'
+	    echo > /tmp/CallRecorder.java
+	    cat packages/apps/Dialer/java/com/android/incallui/call/CallRecorder.java | while read -r LINE
+	    do
+	        if [ -z "$write_disabled" ]
+	        then
+	            echo "$LINE" >> /tmp/CallRecorder.java
+	        fi
+	        if [ -n "$(echo $LINE | grep 'public boolean canRecordInCurrentCountry() {')" ]
+	        then
+	            echo "return true;" >> /tmp/CallRecorder.java
+	            write_disabled=true
+	        fi
+	        if [ -n "$(echo $LINE | grep 'private CallRecorder() {')" ]
+	        then
+	            echo '}' >> /tmp/CallRecorder.java
+	            echo "$LINE" >> /tmp/CallRecorder.java
+	            write_disabled=""
+	        fi
+	    done
+	    IFS=$OLD_IFS
+	    cp /tmp/CallRecorder.java packages/apps/Dialer/java/com/android/incallui/call/CallRecorder.java
+	else
+	    if [ -e packages/apps/Dialer/src/com/android/services/callrecorder/CallRecorderService.java ]
+	    then
+	        # android 7
+	        sed -i 's/context.getResources().getBoolean(R.bool.call_recording_enabled)/true/g' packages/apps/Dialer/src/com/android/services/callrecorder/CallRecorderService.java
+	    fi
 	fi
 fi
 

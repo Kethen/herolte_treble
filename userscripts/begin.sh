@@ -22,10 +22,11 @@ do
 	checkout_project "$f/system/security"
 	checkout_project "$f/device/samsung/universal8890-common"
 	checkout_project "$f/vendor/partner_gms"
+	checkout_project "$f/frameworks/base"
+	checkout_project "$f/vendor/lineage"
 
 	if [ "$f" == "CM_14_1" ]
 	then
-		checkout_project "$f/frameworks/base"
 		checkout_project "$f/hardware/ti/omap4"
 	fi
 	if [ -e $f/vendor/foss ]
