@@ -1,0 +1,53 @@
+#!/sbin/sh
+# Initial functions
+interface="${1}"
+updater_fd="${2}"
+ZIP="$3"
+ui_print() {
+    echo -en "ui_print ${1}\n" > /proc/self/fd/"${updater_fd}"
+    echo -en "ui_print\n" > /proc/self/fd/"${updater_fd}"
+}
+
+ui_print "deploying files"
+if [ -d /tmp/workdir ]
+then
+	rm -r /tmp/workdir
+fi
+mkdir /tmp/workdir
+cd /tmp/workdir
+unzip "$ZIP"
+
+SYSTEM_PART="/dev/block/platform/15740000.dwmmc2/by-name/SYSTEM_SD"
+if ! [ -e "$SYSTEM_PART" ]
+then
+	SYSTEM_PART="/dev/block/platform/155a0000.ufs/by-name/SYSTEM"
+fi
+
+ui_print "preparing /system_root for modifications"
+chmod 755 e2_progs/*
+./e2_progs/e2fsck -p -f "$SYSTEM_PART" 1> e2_logs 2> e2_errs
+./e2_progs/resize2fs "$SYSTEM_PART" 1>> e2_logs 2>> e2_errs
+./e2_progs/e2fsck -p -E unshare_blocks "$SYSTEM_PART" 1>> e2_logs 2>> e2_errs
+
+ui_print "mounting /system_root"
+mkdir /system_root
+mount "$SYSTEM_PART" /system_root
+
+if [ -e /system_root/system/etc/init/8890_store_mode.rc ]
+then
+	ui_print "disabling store mode"
+	rm /system_root/system/bin/8890_store_mode
+	rm /system_root/system/etc/init/8890_store_mode.rc
+else
+	ui_print "enabling store mode"
+	cp 8890_store_mode /system_root/system/bin/8890_store_mode
+	chmod 755 /system_root/system/bin/8890_store_mode
+	chown root:shell /system_root/system/bin/8890_store_mode
+
+	cp 8890_store_mode.rc /system_root/system/etc/init/
+	chmod 644 /system_root/system/etc/init/8890_store_mode.rc
+fi
+
+ui_print "finishing up"
+umount /system_root
+sync

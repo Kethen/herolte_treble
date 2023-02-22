@@ -31,6 +31,14 @@ https://github.com/ivanmeler for prompting me to look into lpm again, now it is 
 
 ### Updates:
 
+- 2023-02-23
+
+added `store_mode.zip` flashable that uses `/sys/class/power_supply/battery/store_mode` and `/sys/module/sec_battery/parameters/store_mode_max` interfaces for limiting battery charging
+
+	flash to limit battery charging to 70%, flash again to disable charging limit
+
+	after flashing, charging limit can be adjusted at "/system/etc/init/8890_store_mode.rc" by changing "70" on the line "service enable_store_mode /system/bin/8890_store_mode 1 70" to other percentage values
+
 - 2023-02-15
 
 include libaptX_encoder.so in patchers

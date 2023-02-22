@@ -1,0 +1,28 @@
+# services for toggling store mode
+
+# maybe for another day
+#on property:persist.8890.storemode=0
+#    start disable_store_mode
+
+#on property:persist.8890.storemode=1
+#    start enable_store_mode
+
+on boot
+	start enable_store_mode
+
+on charger
+	start enable_store_mode
+
+service enable_store_mode /system/bin/8890_store_mode 1 70
+    disabled
+    oneshot
+    user root
+    group root
+    seclabel u:r:su:s0
+
+service disable_store_mode /system/bin/8890_store_mode 0
+    disabled
+    oneshot
+    user root
+    group root
+    seclabel u:r:su:s0
