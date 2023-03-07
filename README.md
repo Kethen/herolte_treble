@@ -222,7 +222,7 @@ full disk encryption is removed in android 13, file based encryption not availab
 3. Flash a device native rom
 
 ### Building
-lineage_build_herolte_vendor_part, lineage_build_hero2lte_vendor_part, lineage_build_herolte_vendor_part_18.1 and lineage_build_hero2lte_vendor_part_18.1 builds lineageos along with treble vendor using https://github.com/lineageos4microg/docker-lineage-cicd
+`lineage_build_vendor_part <herolte/hero2lte/gracerlte>` and `lineage_build_vendor_part_18.1 <herolte/hero2lte/gracerlte>` builds lineageos along with treble vendor using https://github.com/lineageos4microg/docker-lineage-cicd
 
 you'll need ~15GB of free ram, ~300GB free disk space and podman
 
