@@ -33,6 +33,13 @@ ramdisk_compression=auto;
 chmod -R 750 $ramdisk/*;
 chown -R root:root $ramdisk/*;
 
+DEVICE_MODEL=$(getprop ro.product.device)
+if [ "$DEVICE_MODEL" != "herolte" ] && [ "$DEVICE_MODEL" != "hero2lte" ]
+then
+	ui_print "this zip is for herolte/hero2lte, refuse to flash on $DEVICE_MODEL"
+	exit 1
+fi
+
 ui_print "twrp patcher with anykernel";
 
 if [ -n "$(cat /etc/recovery.fstab | grep '/cache			ext4	/dev/block/platform/155a0000.ufs/by-name/HIDDEN')" ];
