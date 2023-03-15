@@ -33,16 +33,16 @@ ramdisk_compression=auto;
 chmod -R 750 $ramdisk/*;
 chown -R root:root $ramdisk/*;
 
-DEVICE_MODEL=$(getprop ro.product.device)
-if [ "$DEVICE_MODEL" != "gracerlte" ]
+DEVICE_MODEL=$(getprop ro.omni.device)
+if [ "$DEVICE_MODEL" != "gracelte" ]
 then
-	ui_print "this zip is for gracerlte, refuse to flash on $DEVICE_MODEL"
+	ui_print "this zip is for gracelte, refuse to flash on $DEVICE_MODEL"
 	exit 1
 fi
 
 ui_print "twrp patcher with anykernel";
 
-if [ -n "$(cat /etc/recovery.fstab | grep '/cache			ext4	/dev/block/platform/155a0000.ufs/by-name/HIDDEN')" ];
+if [ -n "$(cat /etc/recovery.fstab | grep '/cache		ext4	/dev/block/bootdevice/by-name/HIDDEN')" ];
 then
 	ui_print "twrp is already patched, aborting";
 	exit 0;
@@ -56,9 +56,9 @@ dump_boot;
 # begin ramdisk changes
 # etc/recovery.fstab
 backup_file etc/recovery.fstab;
-replace_line etc/recovery.fstab "/cache			ext4	/dev/block/platform/155a0000.ufs/by-name/CACHE" "/cache			ext4	/dev/block/platform/155a0000.ufs/by-name/HIDDEN";
-insert_line etc/recovery.fstab "" after "/dev/block/platform/155a0000.ufs/by-name/SYSTEM" "/vendor_image  emmc   /dev/block/platform/155a0000.ufs/by-name/CACHE     flags=backup=1";
-insert_line etc/recovery.fstab "" after "/dev/block/platform/155a0000.ufs/by-name/SYSTEM" "/system_image  emmc   /dev/block/platform/155a0000.ufs/by-name/SYSTEM     flags=backup=1";
+replace_line etc/recovery.fstab "/cache		ext4	/dev/block/bootdevice/by-name/CACHE" "/cache		ext4	/dev/block/bootdevice/by-name/HIDDEN";
+insert_line etc/recovery.fstab "" after "/dev/block/bootdevice/by-name/SYSTEM" "/vendor_image  emmc   /dev/block/bootdevice/by-name/CACHE     flags=backup=1";
+insert_line etc/recovery.fstab "" after "/dev/block/bootdevice/by-name/SYSTEM" "/system_image  emmc   /dev/block/bootdevice/by-name/SYSTEM     flags=backup=1";
 
 # end ramdisk changes
 

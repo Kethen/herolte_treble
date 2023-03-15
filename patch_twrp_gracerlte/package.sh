@@ -1,3 +1,3 @@
 cd anykernel
-rm -f ../twrp_patcher_gracerlte.zip
-zip -r -y -9 ../twrp_patcher_gracerlte.zip .
+rm -f ../twrp_gracerlte_patcher.zip
+zip -r -y -9 ../twrp_gracerlte_patcher.zip .
