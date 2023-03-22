@@ -1,6 +1,6 @@
 # services for triggering a reboot and logging
 
-on boot
+on post-fs-data
     start log_to_data
 
 on property:sys.boot_completed=1
