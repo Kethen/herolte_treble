@@ -42,7 +42,7 @@ do
 done
 chcon u:object_r:lmkd_exec:s0 /system_root/system/bin/lmkd
 
-for f in lib64/libaptX_encoder.so
+for f in lib64/libaptX_encoder.so lib64/libkm_compat.so
 do
 	cp $f /system_root/system/lib64
 	chcon u:object_r:system_lib_file:s0 /system_root/system/$f
