@@ -42,7 +42,15 @@ do
 done
 chcon u:object_r:lmkd_exec:s0 /system_root/system/bin/lmkd
 
-for f in lib64/libaptX_encoder.so lib64/libkm_compat.so
+for f in lib/libbinder.so
+do
+	cp $f /system_root/system/lib
+	chcon u:object_r:system_lib_file:s0 /system_root/system/$f
+	chmod 644 /system_root/system/$f
+	chown root:root /system_root/system/$f
+done
+
+for f in lib64/libaptX_encoder.so lib64/libkm_compat.so lib64/libbinder.so
 do
 	cp $f /system_root/system/lib64
 	chcon u:object_r:system_lib_file:s0 /system_root/system/$f
