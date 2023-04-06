@@ -1,5 +1,14 @@
 #!/bin/bash
 set -xe
+if [ "$BUILD_OVERLAY" = true ]
+then
+	cd "$TMP_DIR/merged"
+else
+	branch_dir=${BRANCH_NAME//[^[:alnum:]]/_}
+	branch_dir=${branch_dir^^}
+	cd "$SRC_DIR/$branch_dir"
+fi
+
 if false
 then
 	# replace default wallpaper

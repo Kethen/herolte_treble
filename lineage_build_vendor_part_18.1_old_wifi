@@ -16,7 +16,7 @@ podman run \
 	--net host \
 	-it --rm \
 	-e "BRANCH_NAME=lineage-18.1" \
-	-e "DEVICE_LIST=hero2lte" \
+	-e "DEVICE_LIST=${1}" \
 	-e "INCLUDE_PROPRIETARY=false" \
 	-e "CUSTOM_PACKAGES=$WEBKIT_REPLACEMENT $FDROID $EXTRA_APP_SELECTION $MICROG $EAPPS " \
 	-e "SIGNATURE_SPOOFING=restricted" \
